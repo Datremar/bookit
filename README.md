@@ -51,7 +51,7 @@ Any changes to the database should be provisioned using migrations. To
 better understand now to create a new migration please follow the 
 [Dbmate docs](https://github.com/amacneil/dbmate/blob/main/README.md)
 
-## API
+## API [![Code Quality & Tests](https://github.com/mariogarridopt/bookit/actions/workflows/code-checks.yml/badge.svg?branch=master)](https://github.com/mariogarridopt/bookit/actions/workflows/code-checks.yml)
 
 The python API is running on port `8181` so you can access it at:
 `http://localhost:8181/`.
