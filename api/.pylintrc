@@ -1,6 +1,7 @@
 [MASTER]
 ignore=Dockerfile,requirements.txt,wait-for-it.sh
-ignore-paths = '^migrations/.*$'
+ignore-paths=^migrations/.*,
+             ^tests/.*
 
 [MESSAGES CONTROL]
 

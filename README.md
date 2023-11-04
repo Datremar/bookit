@@ -33,7 +33,8 @@ Your developer environment should be up and runing, check:
 - Turn on: `docker compose up -d`
 - Turn off: `docker compose down`
 - Migrations: `docker exec -it bookit-api dbmate --help`
-- API Lint: `docker exec bookit-api pylint "*"`
+- API lint: `docker exec bookit-api pylint "*"`
+- API tests `docker exec bookit-api python -m unittest discover -s tests -p "*.py" -v`
 - Container logs: `docker compose logs -f`
 
 ## Migrations
