@@ -1,22 +1,18 @@
 import dataclasses
 from datetime import datetime
-from models.base_model import BaseModel
+from typing import Optional
+from pydantic import BaseModel, Field
+from models.dal import DAL
 
 @dataclasses.dataclass
-class Notifications(BaseModel):
+class Notifications(DAL, BaseModel):
     """Representing table auth"""
     __tablename__ = 'notifications'
-    title: str
-    message: str
-    ack: int
-    role: str
-    created_at: str
-    target_user_id: int
 
-    def __init__(self, **kwargs):
-        kwargs.setdefault('title', "")
-        kwargs.setdefault('message', "")
-        kwargs.setdefault('ack', 0)
-        kwargs.setdefault('role', "user")
-        kwargs.setdefault('created_at', datetime.now())
-        super().__init__(**kwargs)
+    id: Optional[int]
+    title: str = ''
+    message: str = ''
+    ack: Optional[int] = 0
+    role: Optional[str] = 'user'
+    created_at: Optional[datetime] = Field(default_factory=datetime.now)
+    target_user_id: int

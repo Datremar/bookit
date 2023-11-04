@@ -1,5 +1,7 @@
+import json
 from flask_cors import cross_origin
-from flask import request, jsonify
+from flask import request
+from pydantic.json import pydantic_encoder
 from middleware.auth import login_required, admin_required
 from models.auth import Auth
 from models.token import Token
@@ -34,7 +36,7 @@ def revoke_my_token(_) -> dict:
 def get_my_data(user_id: int) -> dict:
     """Fetch user_id data"""
     user = Auth.select_first(id=user_id)
-    return jsonify(user), 200
+    return user.json(), 200
 
 @cross_origin()
 @login_required
@@ -57,7 +59,7 @@ def close_my_account(user_id: int) -> dict:
 def get_data(_, user_id: int) -> dict:
     """Fetch user_id data"""
     user = Auth.select_first(id=user_id)
-    return jsonify(user), 200
+    return user.json(), 200
 
 @admin_required
 def get_users_list(_) -> dict:
@@ -73,7 +75,7 @@ def get_users_list(_) -> dict:
         offset=offset,
         order_by='created_at DESC'
     )
-    return jsonify(users_list), 200
+    return json.dumps(users_list, default=pydantic_encoder), 200
 
 @cross_origin()
 @admin_required

@@ -1,21 +1,16 @@
-import dataclasses
 from datetime import datetime
-from models.base_model import BaseModel
+from typing import Optional
+from pydantic import BaseModel, Field
+from models.dal import DAL
 
-@dataclasses.dataclass
-class Auth(BaseModel):
+class Auth(DAL, BaseModel):
     """Representing table auth"""
     __tablename__ = 'auth'
-    username: str
-    password: str
-    active: int
-    role: str
-    created_at: str
 
-    def __init__(self, **kwargs):
-        kwargs.setdefault('username', "")
-        kwargs.setdefault('password', "")
-        kwargs.setdefault('active', 1)
-        kwargs.setdefault('role', "user")
-        kwargs.setdefault('created_at', datetime.now())
-        super().__init__(**kwargs)
+    id: Optional[int]
+    username: str = ''
+    password: str = ''
+    active: Optional[int] = 1
+    role: Optional[str] = 'user'
+    created_at: Optional[datetime] = Field(default_factory=datetime.now)
+    updated_at: Optional[datetime] = Field(default_factory=datetime.now)

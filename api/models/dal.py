@@ -1,20 +1,12 @@
-import dataclasses
 import config
 
-@dataclasses.dataclass
-class BaseModel:
+class DAL:
     __tablename__ = None
-    id: int
-
-    conn = config.get_db()
-
-    def __init__(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
 
     @classmethod
     def insert(cls, **kwargs) -> int:
-        cursor = cls.conn.cursor()
+        conn = config.get_db()
+        cursor = config.get_db_cursor()
 
         # Extracting the attributes and values provided
         attributes = list(kwargs.keys())
@@ -28,7 +20,7 @@ class BaseModel:
 
         # Executing the query
         cursor.execute(query, tuple(values))
-        cls.conn.commit()
+        conn.commit()
 
         # Getting the last inserted ID
         last_inserted_id = cursor.lastrowid
@@ -39,7 +31,7 @@ class BaseModel:
     @classmethod
     # pylint: disable=line-too-long
     def select(cls, limit=None, offset=None, order_by=None, **conditions) -> list:
-        cursor = cls.conn.cursor()
+        cursor = config.get_db_cursor()
 
         # Formulating the SQL query
         if conditions:
@@ -68,16 +60,15 @@ class BaseModel:
         instances = []
         columns = [desc[0] for desc in cursor.description]
         for row in results:
-            instance = cls()
-            for attr, value in zip(columns, row):
-                setattr(instance, attr, value)
+            args = dict(zip(columns, row))
+            instance = cls(**args)
             instances.append(instance)
 
         return instances
 
     @classmethod
     def select_first(cls, **conditions) -> object:
-        cursor = cls.conn.cursor()
+        cursor = config.get_db_cursor()
 
         # Formulating the SQL query
         if conditions:
@@ -93,17 +84,17 @@ class BaseModel:
         row = cursor.fetchone()
 
         if row:
-            instance = cls()
-            columns = [desc[0] for desc in cursor.description]
-            for attr, value in zip(columns, row):
-                setattr(instance, attr, value)
+            columns = [col[0] for col in cursor.description]
+            args = dict(zip(columns, row))
+            instance = cls(**args)
             return instance
 
         return None
 
     @classmethod
     def delete(cls, **conditions) -> None:
-        cursor = cls.conn.cursor()
+        conn = config.get_db()
+        cursor = config.get_db_cursor()
 
         # Formulating the SQL query
         if conditions:
@@ -115,12 +106,13 @@ class BaseModel:
             query = f"DELETE FROM {cls.__tablename__}"
             cursor.execute(query)
 
-        cls.conn.commit()
+        conn.commit()
         cursor.close()
 
     @classmethod
     def update(cls, conditions: dict, new_values: dict) -> None:
-        cursor = cls.conn.cursor()
+        conn = config.get_db()
+        cursor = config.get_db_cursor()
 
         # Formulating the SQL query
         if not conditions:
@@ -144,13 +136,13 @@ class BaseModel:
 
         # Executing the query
         cursor.execute(query, tuple(values))
-        cls.conn.commit()
+        conn.commit()
         cursor.close()
 
     @classmethod
     def exec_query(cls, query, params=None):
-        conn = config.get_db()
-        cursor = conn.cursor()
+        cursor = config.get_db_cursor()
+
         if params:
             cursor.execute(query, params)
         else:
@@ -158,8 +150,3 @@ class BaseModel:
         results = cursor.fetchall()
         cursor.close()
         return results
-
-    @classmethod
-    def close_connection(cls) -> None:
-        if cls.conn.is_connected():
-            cls.conn.close()

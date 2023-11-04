@@ -1,6 +1,7 @@
 import hashlib
 from models.auth import Auth
 from models.token import Token
+import config
 
 def create_token(username: str) -> str:
     """
@@ -23,7 +24,7 @@ def create_token_by_user_id(user_id: int) -> str:
     :returns: token
     :raises Exception: if not valid user_id
     """
-    my_token = Token.gen_random_token()
+    my_token = config.generate_token()
     Token.insert(
         user_id=user_id,
         token=my_token
