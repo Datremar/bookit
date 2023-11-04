@@ -22,14 +22,13 @@ class Auth(DAL, BaseModel):
         if any(p in value for p in string.punctuation):
             raise ValueError("Username must not include pointuation")
         return value
-    
+
     @validator('active')
     @classmethod
     def active_valid(cls, value):
-        if value != 0 and value != 1:
+        if value not in (0, 1):
             raise ValueError("Active must be 1 for true or 0 for false")
         return value
-        
 
     @validator('role')
     @classmethod

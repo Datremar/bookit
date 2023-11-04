@@ -19,7 +19,7 @@ class Notifications(DAL, BaseModel):
     @validator('ack')
     @classmethod
     def ack_valid(cls, value):
-        if value != 0 and value != 1:
+        if value not in (0, 1):
             raise ValueError("Ack must be 1 for true or 0 for false")
         return value
 
