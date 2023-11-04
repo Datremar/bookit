@@ -26,4 +26,4 @@ jobs:
         pip install -r api/requirements.txt
     - name: Run tests with python unittest
       run: |
-        python -m unittest discover -s tests -p "*.py" -v
+        python -m unittest discover -s api/tests -p "*.py" -v
