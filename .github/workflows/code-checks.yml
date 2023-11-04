@@ -53,6 +53,10 @@ jobs:
         compose-file: "./docker-compose.yml"
       env:
         PWD: "."
+    - name: Sleep for 20 seconds
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '20s'
     - name: Run tests with python unittest
       run: |
         python -m unittest discover -s api/tests -p "*.py" -v
