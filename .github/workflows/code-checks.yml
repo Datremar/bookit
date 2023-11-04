@@ -28,7 +28,7 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         pylint --rcfile api/.pylintrc api/*
-  check-tets:
+  check-tests:
     runs-on: ubuntu-latest
     needs: [check-lint]
     strategy:
@@ -48,6 +48,8 @@ jobs:
       uses: isbang/compose-action@v1.5.1
       with:
         compose-file: "./docker-compose.yml"
+      env:
+        PWD: "."
     - name: Run tests with python unittest
       run: |
         python -m unittest discover -s api/tests -p "*.py" -v
