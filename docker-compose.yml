@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ${PWD}/api:/python-docker
+      - ./api:/python-docker
     ports:
       - 8181:5000
     networks:
@@ -23,7 +23,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ${PWD}/frontend:/usr/share/nginx/html
+      - ./frontend:/usr/share/nginx/html
     ports:
       - 8080:80
     networks:
