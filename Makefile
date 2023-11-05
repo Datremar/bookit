@@ -1,4 +1,4 @@
-.PHONY: up down logs lint test mysql-lint
+.PHONY: up down logs lint test sql-lint
 
 up:
 	docker compose up -d
@@ -12,8 +12,8 @@ logs:
 lint:
 	pylint --rcfile api/.pylintrc "api/*"
 
-mysql-lint:
-	sqlfluff lint api/migrations --dialect mysql
+sql-lint:
+	sqlfluff lint api/migrations
 
 test:
-	python -m unittest discover -s api/tests -p "*.py" -v
+	python3 -m unittest discover -s api/tests -p "*.py" -v

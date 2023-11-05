@@ -1,12 +1,12 @@
 -- migrate:up
 CREATE TABLE `auth` (
-    `id` int AUTO_INCREMENT,
-    `username` varchar(60) NOT NULL UNIQUE,
-    `password` varchar(130) NOT NULL,
-    `role` enum('admin', 'user', 'mod') NOT NULL DEFAULT 'user',
-    `active` tinyint(1) NOT NULL DEFAULT 1,
-    `created_at` DATETIME NOT NULL DEFAULT NOW (),
-    `updated_at` DATETIME NOT NULL DEFAULT NOW (),
+    `id` INT AUTO_INCREMENT,
+    `username` VARCHAR(60) NOT NULL UNIQUE,
+    `password` VARCHAR(130) NOT NULL,
+    `role` ENUM('admin', 'user', 'mod') NOT NULL DEFAULT 'user',
+    `active` TINYINT(1) NOT NULL DEFAULT 1,
+    `created_at` DATETIME NOT NULL DEFAULT NOW(),
+    `updated_at` DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id)
 );
 

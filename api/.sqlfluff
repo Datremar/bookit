@@ -1,0 +1,15 @@
+[sqlfluff]
+dialect = mysql
+
+templater = jinja
+sql_file_exts = .sql
+
+exclude_rules = LT01
+
+max_line_length=80
+
+[sqlfluff:templater]
+unwrap_wrapped_queries = True
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True

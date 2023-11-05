@@ -1,13 +1,13 @@
 -- migrate:up
 CREATE TABLE `notifications` (
-    `id` int AUTO_INCREMENT,
-    `title` varchar(60) NOT NULL UNIQUE,
-    `message` text NOT NULL,
-    `ack` tinyint(1) NOT NULL DEFAULT 0,
-    `created_at` DATETIME NOT NULL DEFAULT NOW (),
-    `target_user_id` int,
+    `id` INT AUTO_INCREMENT,
+    `title` VARCHAR(60) NOT NULL UNIQUE,
+    `message` TEXT NOT NULL,
+    `ack` TINYINT(1) NOT NULL DEFAULT 0,
+    `created_at` DATETIME NOT NULL DEFAULT NOW(),
+    `target_user_id` INT,
     PRIMARY KEY (id),
-    FOREIGN KEY (target_user_id) REFERENCES auth (id)
+    FOREIGN KEY (target_user_id) REFERENCES auth(id)
 );
 
 INSERT INTO `bookings`.`notifications` (`title`, `message`, `target_user_id`)
