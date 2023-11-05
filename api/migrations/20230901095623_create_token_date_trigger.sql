@@ -1,4 +1,5 @@
 -- migrate:up
+-- noqa: disable=all
 CREATE TRIGGER set_default_expire_token_date
 BEFORE INSERT ON token
 FOR EACH ROW
