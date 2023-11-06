@@ -16,7 +16,10 @@ def get_my_token() -> dict:
 
     hashed_password = auth_service.hash_pass(data['password'])
 
-    user = Auth.select_first(username=data['username'], password=hashed_password)
+    user = Auth.select_first(
+        username=data['username'],
+        password=hashed_password
+    )
 
     if user is None:
         return {'error': 'Username or password are invalid'}, 401
