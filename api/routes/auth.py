@@ -4,7 +4,7 @@ from controllers import auth_controller as ctl
 auth_blueprint = Blueprint('auth', __name__)
 
 # user commands
-auth_blueprint.route('/token', methods=['GET'])(ctl.get_my_token)
+auth_blueprint.route('/login', methods=['POST'])(ctl.get_my_token)
 auth_blueprint.route('/token', methods=['DELETE'])(ctl.revoke_my_token)
 auth_blueprint.route('/', methods=['GET'])(ctl.get_my_data)
 auth_blueprint.route('/', methods=['PUT'])(ctl.update_my_data)

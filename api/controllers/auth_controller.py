@@ -1,5 +1,5 @@
 from flask_cors import cross_origin
-from flask import request, jsonify
+from flask import request, jsonify, json
 from middleware.auth import login_required, admin_required
 from models.auth import Auth
 from models.token import Token
@@ -9,11 +9,14 @@ from services import auth_service
 @cross_origin()
 def get_my_token() -> dict:
     """Generate token for a user"""
-    username = request.args.get('username', default='', type=str)
-    password = request.args.get('password', default='', type=str)
-    hashed_password = auth_service.hash_pass(password)
+    data = json.loads(request.data)
 
-    user = Auth.select_first(username=username, password=hashed_password)
+    if not data or 'username' not in data or 'password' not in data:
+        return {'error': 'Invalid request body'}, 400
+
+    hashed_password = auth_service.hash_pass(data['password'])
+
+    user = Auth.select_first(username=data['username'], password=hashed_password)
 
     if user is None:
         return {'error': 'Username or password are invalid'}, 401
