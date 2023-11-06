@@ -1,4 +1,5 @@
 import config
+from typing import List, Dict, Any
 
 class DAL:
     __tablename__ = None
@@ -30,7 +31,7 @@ class DAL:
 
     @classmethod
     # pylint: disable=line-too-long
-    def select(cls, limit=None, offset=None, order_by=None, **conditions) -> list:
+    def select(cls, limit=None, offset=None, order_by=None, **conditions) -> List[Dict[str, Any]]:
         cursor = config.get_db_cursor()
 
         # Formulating the SQL query
@@ -58,18 +59,16 @@ class DAL:
         # Fetching the results
         results = cursor.fetchall()
 
-        # mapping the results into class instances
-        instances = []
+        result_dicts = []
         columns = [desc[0] for desc in cursor.description]
         for row in results:
-            args = dict(zip(columns, row))
-            instance = cls(**args)
-            instances.append(instance)
+            result_dict = dict(zip(columns, row))
+            result_dicts.append(result_dict)
 
-        return instances
+        return result_dicts
 
     @classmethod
-    def select_first(cls, **conditions) -> object:
+    def select_first(cls, **conditions) -> dict:
         cursor = config.get_db_cursor()
 
         # Formulating the SQL query
@@ -87,9 +86,8 @@ class DAL:
 
         if row:
             columns = [col[0] for col in cursor.description]
-            args = dict(zip(columns, row))
-            instance = cls(**args)
-            return instance
+            result_dict = dict(zip(columns, row))
+            return result_dict
 
         return None
 
