@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/api"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "18:00"
+      timezone: "UTC"
+    labels:
+      - "kind/improvement"
+      - "service/api"
+    open-pull-requests-limit: 10
+    rebase-strategy: "disabled"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "18:00"
+      timezone: "UTC"
+    labels:
+      - "kind/improvement"
+    open-pull-requests-limit: 10
+    rebase-strategy: "disabled"
