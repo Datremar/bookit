@@ -7,10 +7,18 @@ def login_required(func):
     def log_req(*args, **kwargs):
         print(f"Middleware executed before {func.__name__}")
         try:
+            authorization_header = request.headers.get('Authorization')
+            if authorization_header is None:
+                raise Exception(
+                    "Authorization header is missing. " + 
+                    "Please provide a valid token via Authorization: Bearer."
+                )
+
             token = request.headers.get('Authorization').split()[1]
             my_token = Token.select_first(token=token)
+
             if my_token is None:
-                raise Exception("Unautorized token")
+                raise Exception("Please provide a valid user token")
         except Exception as error:
             return jsonify({"error": str(error)}), 401
 
