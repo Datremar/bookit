@@ -21,12 +21,12 @@ class Test(unittest.TestCase):
     def test_get_auth_token(self):
         url = self.base_url + '/auth/login'
         data = {
-            'username': 'admin',
-            'password': 'admin'
+            "username": "admin",
+            "password": "admin"
         }
 
         # Send the request
-        response = requests.post(url, params=data)
+        response = requests.post(url, json=data)
 
         # Assert that the status code is 200
         self.assertEqual(response.status_code, 200)
