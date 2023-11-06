@@ -91,8 +91,16 @@ def add_user(_) -> dict:
 @login_required
 def update_data(_, user_id: int) -> dict:
     """Change values for user_id"""
-    # TODO: Change user data from database
-    return {'status': 'OK', 'user_id': user_id}
+
+    user = Auth.select_first(id=user_id).dict()
+
+    data = request.json
+    if "password" in data:
+        data["password"] = auth_service.hash_pass(data["password"])
+    Auth.update(conditions={'id': user_id}, new_values=data)
+    user_new = Auth.select_first(id=user_id).dict()
+
+    return {key: user_new[key] for key in user if user_new[key] != user[key]}, 200
 
 @cross_origin()
 @login_required
