@@ -15,7 +15,7 @@ def create_token(username: str) -> str:
     if user is None:
         raise Exception("Username does not exist")
 
-    return create_token_by_user_id(user.id)
+    return create_token_by_user_id(user[id])
 
 def create_token_by_user_id(user_id: int) -> str:
     """

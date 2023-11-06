@@ -18,7 +18,7 @@ def get_my_token() -> dict:
     if user is None:
         return {'error': 'Username or password are invalid'}, 401
 
-    user_token = auth_service.create_token_by_user_id(user.id)
+    user_token = auth_service.create_token_by_user_id(user['id'])
     return {'token': user_token}, 200
 
 @cross_origin()

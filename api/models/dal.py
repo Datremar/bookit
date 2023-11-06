@@ -1,5 +1,5 @@
-import config
 from typing import List, Dict, Any
+import config
 
 class DAL:
     __tablename__ = None

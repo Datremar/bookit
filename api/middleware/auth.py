@@ -22,7 +22,7 @@ def login_required(func):
         except Exception as error:
             return jsonify({"error": str(error)}), 401
 
-        return func(my_token.user_id, *args, **kwargs)
+        return func(my_token['user_id'], *args, **kwargs)
     return log_req
 
 
