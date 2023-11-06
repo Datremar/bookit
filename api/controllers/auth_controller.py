@@ -36,7 +36,7 @@ def revoke_my_token(_) -> dict:
 def get_my_data(user_id: int) -> dict:
     """Fetch user_id data"""
     user = Auth.select_first(id=user_id)
-    return user.json(), 200
+    return user.json(exclude={"password"}), 200
 
 @cross_origin()
 @login_required
