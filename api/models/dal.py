@@ -35,9 +35,8 @@ class DAL:
 
         # Formulating the SQL query
         if conditions:
-            condition_str = ' AND '.join([f"{key} = %s" for key in conditions])
+            condition_str = " AND ".join([f"{key} = %s" for key in conditions])
             query = f"SELECT * FROM {cls.__tablename__} WHERE {condition_str}"
-            cursor.execute(query, tuple(conditions.values()))
         else:
             query = f"SELECT * FROM {cls.__tablename__}"
 
@@ -51,7 +50,10 @@ class DAL:
         if offset is not None:
             query += f" OFFSET {offset}"
 
-        cursor.execute(query)
+        if conditions:
+            cursor.execute(query, tuple(conditions.values()))
+        else:
+            cursor.execute(query)
 
         # Fetching the results
         results = cursor.fetchall()
