@@ -59,7 +59,7 @@ def close_my_account(user_id: int) -> dict:
 def get_data(_, user_id: int) -> dict:
     """Fetch user_id data"""
     user = Auth.select_first(id=user_id)
-    return user.json(), 200
+    return user.json(exclude={"password"}), 200
 
 @admin_required
 def get_users_list(_) -> dict:
@@ -70,11 +70,14 @@ def get_users_list(_) -> dict:
         return {'error': 'Limit must be less then 51 and page greater then 0'}
 
     offset = (page - 1) * limit
-    users_list = Auth.select(
+    users = Auth.select(
         limit=limit,
         offset=offset,
         order_by='created_at DESC'
     )
+
+    users_list = [user.dict(exclude={"password"}) for user in users]
+
     return json.dumps(users_list, default=pydantic_encoder), 200
 
 @cross_origin()
