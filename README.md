@@ -90,9 +90,4 @@ The app frontend will run on port `8080`so you can access it at:
 
 ## Contribute
 
-If you want to contribute, please check the [issues page](https://github.com/mariogarridopt/bookit/issues). There you will
-find all the things we want to be done. Add your code to a branch/fork and
-create a Pull Request.
-
-If you think something should be done differently or have a new feature proposal
-Do not create a Pull Request regarding code that is not linked to an issue.
+If you want to contribute, please check the [CONTRIBUTING.md](CONTRIBUTING.md) page.
