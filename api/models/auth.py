@@ -69,6 +69,7 @@ class Auth(DAL, BaseModel):
     @validator('email')
     @classmethod
     def email_valid(cls, value):
+        # pylint: disable=line-too-long
         regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
         if not re.fullmatch(regex, value):
             raise ValueError("Username must not include pointuation")
