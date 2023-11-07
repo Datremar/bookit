@@ -1,6 +1,6 @@
 import string
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field, validator
 from models.dal import DAL
 
@@ -15,6 +15,32 @@ class Auth(DAL, BaseModel):
     role: Optional[str] = 'user'
     created_at: Optional[datetime] = Field(default_factory=datetime.now)
     updated_at: Optional[datetime] = Field(default_factory=datetime.now)
+
+    @classmethod
+    def select(cls, omit_pass=True, limit=None, offset=None, order_by=None, **conditions) -> List[Dict[str, Any]]:
+        users = super().select(
+            limit=limit,
+            offset=offset,
+            order_by=order_by,
+            **conditions
+        )
+        if users:
+            if omit_pass:
+                for user in users:
+                    if "password" in user:
+                        user.pop("password")
+
+        return users
+
+    @classmethod
+    def select_first(cls, omit_pass=True, **conditions) -> dict:
+        user = super().select_first(**conditions)
+        if user:
+            if omit_pass and "password" in user:
+                user.pop("password")
+
+        return user
+
 
     @validator('username')
     @classmethod
