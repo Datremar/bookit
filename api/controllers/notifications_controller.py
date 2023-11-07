@@ -98,7 +98,10 @@ def update_notification(_, notification_id: int) -> dict:
     body = json.loads(request.data)
 
     try:
-        Notifications.update(conditions={'id': notification_id}, new_values=body)
+        Notifications.update(
+            conditions={'id': notification_id},
+            new_values=body
+        )
         notif_update = Notifications.select_first(id=notification_id)
         return jsonify(notif_update), 200
     except Exception as e:
