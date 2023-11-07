@@ -1,21 +1,15 @@
 from functools import wraps
-from flask import request, jsonify
+from flask import jsonify
 from models.token import Token
+from services import token_service
 
 def login_required(func):
     @wraps(func)
     def log_req(*args, **kwargs):
         print(f"Middleware executed before {func.__name__}")
         try:
-            authorization_header = request.headers.get('Authorization')
-            if authorization_header is None:
-                raise Exception(
-                    "Authorization header is missing. " + 
-                    "Please provide a valid token via Authorization: Bearer."
-                )
-
-            token = request.headers.get('Authorization').split()[1]
-            my_token = Token.select_first(token=token)
+            req_token = token_service.get_request_token()
+            my_token = Token.select_first(token=req_token)
 
             if my_token is None:
                 raise Exception("Please provide a valid user token")
@@ -32,7 +26,7 @@ def admin_required(func):
         print(f"Middleware executed before {func.__name__}")
 
         try:
-            token = request.headers.get('Authorization').split()[1]
+            req_token = token_service.get_request_token()
             # pylint: disable=line-too-long
             query = (
                 "SELECT auth.id as 'user_id', token.`token`, auth.`role` as 'role' "
@@ -40,7 +34,7 @@ def admin_required(func):
                 "WHERE token = %s AND role = 'admin' "
                 "LIMIT 1"
             )
-            rows = Token.exec_query("".join(query), (token,))
+            rows = Token.exec_query("".join(query), (req_token,))
 
             if not rows:
                 raise Exception("Unautorized token")
