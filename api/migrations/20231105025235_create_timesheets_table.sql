@@ -1,7 +1,7 @@
 -- migrate:up
 CREATE TABLE `timesheets` (
     `id` INT AUTO_INCREMENT,
-    `name` VARCHAR(60) NOT NULL UNIQUE,
+    `name` VARCHAR(60) NOT NULL,
     `timesheet` TEXT NOT NULL,
     `type` ENUM('busy', 'free') NOT NULL DEFAULT 'busy',
     `active` TINYINT(1) NOT NULL DEFAULT 0,
