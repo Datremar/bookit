@@ -1,4 +1,5 @@
 import string
+import re
 from datetime import datetime
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field, validator
@@ -11,6 +12,7 @@ class Auth(DAL, BaseModel):
     id: Optional[int]
     username: str = ''
     password: str = ''
+    email: str = ''
     active: Optional[int] = 1
     role: Optional[str] = 'user'
     created_at: Optional[datetime] = Field(default_factory=datetime.now)
@@ -62,6 +64,14 @@ class Auth(DAL, BaseModel):
     def role_valid(cls, value):
         if value not in cls.get_roles():
             raise ValueError("Active must be 1 for true or 0 for false")
+        return value
+
+    @validator('email')
+    @classmethod
+    def email_valid(cls, value):
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        if not re.fullmatch(regex, value):
+            raise ValueError("Username must not include pointuation")
         return value
 
     @classmethod
