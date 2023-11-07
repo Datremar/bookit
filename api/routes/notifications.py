@@ -18,7 +18,7 @@ notif_blueprint.route('/manage/<int:notification_id>',
                       methods=['GET'])(ctl.get_notif_details)
 notif_blueprint.route('/manage',
                       methods=['POST'])(ctl.add_notification)
-notif_blueprint.route('/manage',
+notif_blueprint.route('/manage/<int:notification_id>',
                       methods=['PUT'])(ctl.update_notification)
 notif_blueprint.route('/manage/<int:notification_id>',
     methods=['DELETE'])(ctl.del_notification)
