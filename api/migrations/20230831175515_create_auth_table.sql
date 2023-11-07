@@ -11,31 +11,35 @@ CREATE TABLE `auth` (
     PRIMARY KEY (id)
 );
 
-INSERT INTO `auth` (`username`, `password`, `email`, `role`) VALUES
+INSERT INTO `auth` (`id`, `username`, `password`, `email`, `role`) VALUES
 (
+    1,
     'admin',
     '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
     'admin@bookit.test',
     'admin'
 );
 
-INSERT INTO `auth` (`username`, `password`, `email`) VALUES
+INSERT INTO `auth` (`id`, `username`, `password`, `email`) VALUES
 (
+    2,
     'user',
     '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb',
     'user@bookit.test'
 );
 
-INSERT INTO `auth` (`username`, `password`, `email`, `role`) VALUES
+INSERT INTO `auth` (`id`, `username`, `password`, `email`, `role`) VALUES
 (
+    3,
     'tests_auth_admin',
     '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
     'test_admin@bookit.demo',
     'admin'
 );
 
-INSERT INTO `auth` (`username`, `password`, `email`) VALUES
+INSERT INTO `auth` (`id`, `username`, `password`, `email`) VALUES
 (
+    4,
     'tests_auth_user',
     '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb',
     'test_user@bookit.demo'

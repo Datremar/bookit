@@ -110,9 +110,9 @@ def add_user(_) -> dict:
 
     try:
         user_id = Auth.insert(**body)
-        return {"user_id": user_id}, 200
+        return {"user_id": user_id}, 201
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': str(e)}, 400
 
 @cross_origin()
 @login_required
@@ -128,7 +128,7 @@ def update_data(_, user_id: int) -> dict:
         user = Auth.select_first(id=user_id)
         return jsonify(user), 200
     except Exception as e:
-        return {'error': str(e)}
+        return {'error': str(e)}, 400
 
 @cross_origin()
 @login_required
