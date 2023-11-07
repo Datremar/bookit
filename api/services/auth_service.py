@@ -10,7 +10,7 @@ def create_token(username: str) -> str:
     :returns: token
     :raises Exception: if not valid username
     """
-    user = Auth.select_first(omit_pass=False, username=username)
+    user = Auth.select_first(username=username)
 
     if user is None:
         raise Exception("Username does not exist")
